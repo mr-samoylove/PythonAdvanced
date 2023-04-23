@@ -10,7 +10,7 @@ def check_coordinates(tuple_of_eight_coords: tuple) -> bool:
             else:
                 for i in range(8):
                     for j in range(8):
-                        if i == x or j == y or x - y == i - j or x + y == i + j:  # проверка по горизонтали и диагонали
+                        if i == x or j == y or x - y == i - j or x + y == i + j:  # помечаем все бьющиеся клетки
                             board[i][j] = 1
             # print_table(board)
         return True
