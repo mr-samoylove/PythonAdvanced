@@ -1,0 +1,1 @@
+from Sem7.working_with_files import *
