@@ -8,24 +8,24 @@ CSV_FILENAME = "roots.csv"
 JSON_FILENAME = "params_and_solutions.json"
 
 
-def make_csv_file_with_random_square_roots(min_value_of_root=-1000, max_value_root=1000):
+def make_csv_file_with_random_square_roots(min_value_of_root=-1000, max_value_of_root=1000):
     with open(CSV_FILENAME, 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         for _ in range(randint(100, 1001)):
-            writer.writerow((randint(min_value_of_root, max_value_root),
-                             randint(min_value_of_root, max_value_root),
-                             randint(min_value_of_root, max_value_root)))
+            writer.writerow((randint(min_value_of_root, max_value_of_root),
+                             randint(min_value_of_root, max_value_of_root),
+                             randint(min_value_of_root, max_value_of_root)))
 
 
 def decorator_to_solve_all_equations_from_csv(func):
     """Решает все уравнения из файла CSV_FILENAME, заданного глобальной переменной.
-    Действие: построчно читает параметры [a, b, c] из csv и поочередно вызывает find_roots(a, b, c)
+    Действие: построчно читает int параметры [a, b, c] из csv и поочередно вызывает func(a, b, c)
     Возвращает список решений"""
 
     @functools.wraps(func)
     def wrapper():
         with open(CSV_FILENAME, 'r', encoding='utf-8') as f:
-            return [func(*map(int, line)) for line in csv.reader(f)]
+            return tuple(func(*map(int, line)) for line in csv.reader(f))
 
     return wrapper
 
@@ -44,8 +44,9 @@ def decorator_to_save_solutions_to_json(func):
                         'b': example[0][1],
                         'c': example[0][2],
                         'solutions': example[1]}
-                       for example in zip(csv.reader(csv_file), func())], json_file, indent=3)
-        return "finished"
+                       for example in zip(csv.reader(csv_file), func())],
+                      json_file, indent=3)
+        return "finished decorator_to_save_solutions_to_json"
 
     return wrapper
 
@@ -68,4 +69,5 @@ def find_roots(a, b, c):
         return None
 
 
-find_roots()
+if __name__ == '__main__':
+    find_roots()
