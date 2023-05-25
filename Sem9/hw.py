@@ -20,7 +20,7 @@ def make_csv_file_with_random_square_roots(min_value_of_root=-1000, max_value_of
 def decorator_to_solve_all_equations_from_csv(func):
     """Решает все уравнения из файла CSV_FILENAME, заданного глобальной переменной.
     Действие: построчно читает int параметры [a, b, c] из csv и поочередно вызывает func(a, b, c)
-    Возвращает список решений"""
+    Возвращает кортеж решений"""
 
     @functools.wraps(func)
     def wrapper():
