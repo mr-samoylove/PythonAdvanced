@@ -17,10 +17,11 @@ class BankingTerminalAccount:
     _RICHNESS_THRESHOLD = 5_000_000
     _BONUS = 0.03
 
-    log = list()
+
 
     def __init__(self):
         self.__balance = 0
+        self.log = list()
 
     def __input_sum(self, for_taking=False):
         i = 1

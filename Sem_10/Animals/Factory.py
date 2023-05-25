@@ -8,7 +8,7 @@ class Factory:
 
 
 if __name__ == '__main__':
-    from Sem10.Animals.Fish import Fish
+    from Sem_10.Animals.Fish import Fish
 
     factory = Factory()
     new_fish = factory.make_animal(typename=Fish, name='Dora')
