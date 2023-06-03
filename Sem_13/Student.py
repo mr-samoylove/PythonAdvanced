@@ -1,5 +1,5 @@
 import csv
-
+import StudentErrors
 
 class StudentDescriptor:
     SEMINARS_MIN_GRADE = 2
@@ -26,28 +26,27 @@ class StudentDescriptor:
 
     def validate_name(self, name):
         if not isinstance(name, str):
-            raise TypeError(f'Имя и Фамилия должны быть строками, а вы ввели {type(name)}')
+            raise StudentErrors.UsernameTypeError(name)
         if not name.isalpha() or not name.istitle():
-            raise ValueError(f'Имя и Фамилия должны состоять только из букв и начинаться с заглавной буквы, '
-                             f'а вы ввели {name}')
+            raise StudentErrors.UsernameValueError(name)
 
     @staticmethod
     def validate_seminars_grades(grade):
         if not isinstance(grade, int):
-            raise TypeError(f'Оценка должна быть целым числом, а вы ввели {type(grade)}')
+            raise StudentErrors.GradesTypeError(grade)
         if not StudentDescriptor.SEMINARS_MIN_GRADE <= grade <= StudentDescriptor.SEMINARS_MAX_GRADE:
-            raise ValueError(f'Оценка семинаров может быть от {StudentDescriptor.SEMINARS_MIN_GRADE}'
-                             f' до {StudentDescriptor.SEMINARS_MAX_GRADE},'
-                             f' а вы ввели {grade}')
+            raise StudentErrors.GradesOutOfBound(grade,
+                                                 StudentDescriptor.SEMINARS_MIN_GRADE,
+                                                 StudentDescriptor.SEMINARS_MAX_GRADE)
 
     @staticmethod
     def validate_exam_grades(grade):
         if not isinstance(grade, int):
-            raise TypeError(f'Оценка должна быть целым числом, а вы ввели {type(grade)}')
+            raise StudentErrors.GradesTypeError(grade)
         if not StudentDescriptor.EXAM_MIN_GRADE <= grade <= StudentDescriptor.EXAM_MAX_GRADE:
-            raise ValueError(f'Оценка экзаменов может быть от {StudentDescriptor.EXAM_MIN_GRADE}'
-                             f' до {StudentDescriptor.EXAM_MAX_GRADE},'
-                             f' а вы ввели {grade}')
+            raise StudentErrors.GradesOutOfBound(grade,
+                                                 StudentDescriptor.SEMINARS_MIN_GRADE,
+                                                 StudentDescriptor.SEMINARS_MAX_GRADE)
 
 
 class Student:
@@ -115,6 +114,10 @@ if __name__ == '__main__':
     print(oleg)
     print()
     oleg.print_avg_exams()
+
+    # Неверное имя
+    wrong_oleg = Student("oleGGG", "Ivanov")
+    print(wrong_oleg)
 
     # несуществующая дисциплина
     # oleg.set_grade("sleep", "seminar", 3)
